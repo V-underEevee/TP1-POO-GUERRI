@@ -3,7 +3,7 @@ import javax.swing.JOptionPane;
 public class Admin extends Usuario {
 	
 	 public Admin(String mail, String contr) {
-	        super(mail, contr, Rol.Admin);
+	        super(mail, contr, Rol.ADMINISTRADOR);
 	    }
 
 	    @Override
@@ -13,24 +13,68 @@ public class Admin extends Usuario {
 
 	    public void menu() {
 	        boolean salir = false;
-	        do {
-	            String[] opciones = this.getRol().getOpciones();
-	            int opcion = JOptionPane.showOptionDialog(null, "Menú de Administrador", "Administrador", 
-	                                                      JOptionPane.DEFAULT_OPTION,
-	                                                      JOptionPane.INFORMATION_MESSAGE, 
-	                                                      null, opciones, opciones[0]);
+	        while (!salir) {
+	            String[] opciones = {
+	                "Crear usuario",
+	                "Eliminar usuario",
+	                "Modificar usuario",
+	                "Ver usuarios registrados",
+	                "Salir"
+	            };
+
+	            int opcion = JOptionPane.showOptionDialog(
+	                null,
+	                "Menú de Administrador",
+	                "Administrador",
+	                JOptionPane.DEFAULT_OPTION,
+	                JOptionPane.INFORMATION_MESSAGE,
+	                null,
+	                opciones,
+	                opciones[0]
+	            );
 
 	            switch (opcion) {
-	                case 0: // Dar de alta empleado
-	                    JOptionPane.showMessageDialog(null, "Función para crear empleado aún no implementada.");
+	                case 0:
+	                    crearUsuario();
 	                    break;
-	                case 1: // Ver todos los usuarios
-	                    JOptionPane.showMessageDialog(null, Usuario.getUsuarios().toString());
+	                case 1:
+	                    eliminarUsuario();
+	                    break;
+	                case 2:
+	                    modificarUsuario();
+	                    break;
+	                case 3:
+	                    verUsuarios();
 	                    break;
 	                default:
 	                    salir = true;
 	                    break;
 	            }
-	        } while (!salir);
+	        }
+	    }
+
+	    private void crearUsuario() {
+	        JOptionPane.showMessageDialog(null, "Función para crear usuario aún no implementada.");
+	        // Aquí iría la lógica para registrar un nuevo usuario manualmente
+	    }
+
+	    private void eliminarUsuario() {
+	        String mailUsuario = JOptionPane.showInputDialog("Ingrese el correo del usuario a eliminar:");
+	        Usuario u = Usuario.buscarPorMail(mailUsuario);
+	        if (u != null) {
+	            Usuario.getUsuarios().remove(u);
+	            JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito.");
+	        } else {
+	            JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+	        }
+	    }
+
+	    private void modificarUsuario() {
+	        JOptionPane.showMessageDialog(null, "Función para modificar usuario aún no implementada.");
+	        // Podés añadir aquí opciones para modificar contraseña, rol, o más.
+	    }
+
+	    private void verUsuarios() {
+	        JOptionPane.showMessageDialog(null, Usuario.getUsuarios().toString());
 	    }
 }
