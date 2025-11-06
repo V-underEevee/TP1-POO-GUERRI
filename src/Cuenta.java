@@ -5,10 +5,14 @@ public class Cuenta {
     private double saldo;
     private LinkedList<Tarjeta> tarjetas;
 
-    public Cuenta(int numeroCuenta, double saldoInicial) {
-        this.numeroCuenta = numeroCuenta;
-        this.saldo = saldoInicial;
+    public Cuenta() {
+        this.numeroCuenta = generarNumeroCuenta();
+        this.saldo = 0;
         this.tarjetas = new LinkedList<>();
+    }
+
+    private int generarNumeroCuenta() {
+        return (int)(Math.random() * 9000) + 1000;
     }
 
     public void depositar(double monto) {

@@ -33,18 +33,25 @@ public class Usuario {
 	        return null;
 	    }
 	    
-	    // Getters
-	    public String getMail() {
-	        return mail;
-	    }
+	    // Getters y setters
 
-	    public String getContr() {
-	        return contr;
-	    }
-	    
-	    
+		public String getMail() {
+			return mail;
+		}
 
-	    public String getAlias() {
+		public void setMail(String mail) {
+			this.mail = mail;
+		}
+
+		public String getContr() {
+			return contr;
+		}
+
+		public void setContr(String contr) {
+			this.contr = contr;
+		}
+
+		public String getAlias() {
 			return alias;
 		}
 
@@ -53,17 +60,29 @@ public class Usuario {
 		}
 
 		public Rol getRol() {
-	        return rol;
-	    }
+			return rol;
+		}
 
-	    public static ArrayList<Usuario> getUsuarios() {
-	        return usuarios;
-	    }
+		public void setRol(Rol rol) {
+			this.rol = rol;
+		}
 
-	    @Override
-	    public String toString() {
-	        return "Usuario [mail=" + mail + ", rol=" + rol + "]";
-	    }
+		public static ArrayList<Usuario> getUsuarios() {
+			return usuarios;
+		}
+
+		public static void setUsuarios(ArrayList<Usuario> usuarios) {
+			Usuario.usuarios = usuarios;
+		}
+
+		@Override
+		public String toString() {
+			return "Usuario [mail=" + mail + ", contr=" + contr + ", rol=" + rol + ", getClass()=" + getClass()
+					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+		}
+		
+		
+		
 }
 
 

@@ -55,7 +55,7 @@ public class Admin extends Usuario {
 
 	    private void crearUsuario() {
 	        JOptionPane.showMessageDialog(null, "Función para crear usuario aún no implementada.");
-	        // Aquí iría la lógica para registrar un nuevo usuario manualmente
+	        // lógica para registrar un nuevo usuario manualmente
 	    }
 
 	    private void eliminarUsuario() {
@@ -71,7 +71,7 @@ public class Admin extends Usuario {
 
 	    private void modificarUsuario() {
 	        JOptionPane.showMessageDialog(null, "Función para modificar usuario aún no implementada.");
-	        // Podés añadir aquí opciones para modificar contraseña, rol, o más.
+	        // añadir opciones para modificar contraseña, rol, etc.
 	    }
 
 	    private void verUsuarios() {

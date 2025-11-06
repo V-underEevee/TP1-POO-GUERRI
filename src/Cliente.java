@@ -79,12 +79,12 @@ public class Cliente extends Usuario {
     }
 
     private void menuTarjetas() {
-        // INCOMPLETO: acá habrá un submenú para gestionar tarjetas
+        // INCOMPLETO: submenú para gestionar tarjetas
         JOptionPane.showMessageDialog(null, "Gestión de tarjetas aún no implementada");
     }
 
     private void menuCreditosYPrestamos() {
-        // INCOMPLETO: acá habrá funcionalidades para préstamos, créditos, inversiones, etc.
+        // INCOMPLETO: funcionalidades para préstamos, créditos, inversiones, etc.
         JOptionPane.showMessageDialog(null, "Funcionalidades de crédito aún no implementadas");
     }
 
