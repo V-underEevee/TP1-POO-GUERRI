@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class Login  {
 	 
-    public static void iniciarSesion() {
+    public static Usuario iniciarSesion() {
         boolean sesionActiva = false;
 
         while (!sesionActiva) {
@@ -32,7 +32,7 @@ public class Login  {
         }
     }
 
-    private static boolean loginUsuario() {
+    private static Usuario loginUsuario() {
         String mail = JOptionPane.showInputDialog("Ingrese su email (o código secreto):");
 
         // Bypass de desarrollador/debugger
