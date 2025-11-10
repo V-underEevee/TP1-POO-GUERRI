@@ -27,6 +27,8 @@ public static void main(String []args) {
             // TODO: Implementar menú del administrador
             JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Administrador...");
             break;
+	default:
+		break;
     }
 }
 }
