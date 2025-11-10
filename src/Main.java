@@ -20,6 +20,8 @@ public static void main(String []args) {
         case CLIENTE:
             // TODO: Implementar menú del cliente
             JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Cliente...");
+            Cliente actual = (Cliente)usuarioLogueado;
+            actual.menu();
             break;
         case ADMINISTRADOR:
             // TODO: Implementar menú del administrador

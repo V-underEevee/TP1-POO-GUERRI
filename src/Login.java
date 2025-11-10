@@ -1,11 +1,13 @@
+import java.util.LinkedList;
+
 import javax.swing.JOptionPane;
 
 public class Login  {
-	 
+	 private static LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
     public static Usuario iniciarSesion() {
-        boolean sesionActiva = false;
+        Usuario sesionActiva = null;
 
-        while (!sesionActiva) {
+        while (sesionActiva!=null) {
             String[] opciones = {"Iniciar sesión", "Registrarse", "Salir"};
             int seleccion = JOptionPane.showOptionDialog(
                     null,
@@ -26,10 +28,11 @@ public class Login  {
                     registrarUsuario();
                     break;
                 default:
-                    sesionActiva = true; // Cierra el ciclo si elige "Salir" o cierra ventana
+                    sesionActiva = null; // Cierra el ciclo si elige "Salir" o cierra ventana
                     break;
             }
         }
+		return sesionActiva;
     }
 
     private static Usuario loginUsuario() {
@@ -42,10 +45,10 @@ public class Login  {
                 Usuario admin = Usuario.buscarPorMail("admin@banco.com");
                 if (admin != null) {
                     ((Admin) admin).menu();
+                    return admin;
                 }
-                return true;
             }
-        } else return false;
+        } else return null;
 
         String contr = JOptionPane.showInputDialog("Ingrese su contraseña:");
         Usuario usuario = Usuario.buscarPorMail(mail);
@@ -66,10 +69,10 @@ public class Login  {
                 default:
                     JOptionPane.showMessageDialog(null, "Rol desconocido.");
             }
-            return true;
+            return usuario;
         } else {
             JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos.");
-            return false;
+            return null;
         }
     }
 
@@ -110,15 +113,19 @@ public class Login  {
             case CLIENTE:
                 Cliente cliente = new Cliente(mail, contr, Rol.CLIENTE, new Cuenta());
                 cliente.setAlias(alias);
+                usuarios.add(cliente);
                 JOptionPane.showMessageDialog(null, "Cliente registrado correctamente.");
                 break;
             case EMPLEADO:
                 Empleado empleado = new Empleado(mail, contr, java.time.LocalDate.now());
                 empleado.setAlias(alias);
                 JOptionPane.showMessageDialog(null, "Empleado registrado correctamente.");
+                usuarios.add(empleado);
+
                 break;
             case ADMINISTRADOR:
                 Admin admin = new Admin(mail, contr);
+                usuarios.add(admin);
                 admin.setAlias(alias);
                 JOptionPane.showMessageDialog(null, "Administrador registrado correctamente.");
                 break;
