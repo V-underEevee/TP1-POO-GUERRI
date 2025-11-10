@@ -2,7 +2,7 @@ import javax.swing.JOptionPane;
 
 public class Main {
 public static void main(String []args) {
-    // Inicializar usuarios de prueba
+    // Inicializar-usuarios-de-prueba
     new Usuario("cliente1@mail.com", "1234", Rol.CLIENTE);
     new Usuario("admin@banco.com", "admin123", Rol.ADMINISTRADOR);
 
@@ -15,18 +15,20 @@ public static void main(String []args) {
     JOptionPane.showMessageDialog(null, 
         "Bienvenido, " + usuarioLogueado.getMail() + "\nRol: " + usuarioLogueado.getRol());
 
-    // Menú según el rol
+    // Menú-según el-rol
     switch (usuarioLogueado.getRol()) {
         case CLIENTE:
-            // TODO: Implementar menú del cliente
+            // Implementar-menú-del-cliente
             JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Cliente...");
             Cliente actual = (Cliente)usuarioLogueado;
             actual.menu();
             break;
         case ADMINISTRADOR:
-            // TODO: Implementar menú del administrador
+            // Implementar-menú-del-administrador
             JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Administrador...");
             break;
+	case EMPLEADO:
+		break;
 	default:
 		break;
     }
