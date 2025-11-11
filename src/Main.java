@@ -3,14 +3,16 @@ import javax.swing.JOptionPane;
 public class Main {
 public static void main(String []args) {
     // Inicializar-usuarios-de-prueba
-    new Usuario("cliente1@mail.com", "1234", Rol.CLIENTE);
+    new Usuario("cliente1@mail.com", "12345", Rol.CLIENTE);
     new Usuario("admin@banco.com", "admin123", Rol.ADMINISTRADOR);
 
     Usuario usuarioLogueado = null;
 
-    while (usuarioLogueado == null) {
-        usuarioLogueado = Login.iniciarSesion();
-    }
+    do {
+    	
+    	usuarioLogueado = Login.iniciarSesion();
+    }while(usuarioLogueado == null) ;
+    
 
     JOptionPane.showMessageDialog(null, 
         "Bienvenido, " + usuarioLogueado.getMail() + "\nRol: " + usuarioLogueado.getRol());

@@ -7,7 +7,7 @@ public class Login  {
     public static Usuario iniciarSesion() {
         Usuario sesionActiva = null;
 
-        while (sesionActiva!=null) {
+   do{
             String[] opciones = {"Iniciar sesión", "Registrarse", "Salir"};
             int seleccion = JOptionPane.showOptionDialog(
                     null,
@@ -31,7 +31,7 @@ public class Login  {
                     sesionActiva = null; // Cierra el ciclo si elige "Salir" o cierra ventana
                     break;
             }
-        }
+        }      while (sesionActiva!=null);
 		return sesionActiva;
     }
 
