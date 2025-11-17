@@ -31,7 +31,8 @@ public class Login  {
                     sesionActiva = null; // Cierra el ciclo si elige "Salir" o cierra ventana
                     break;
             }
-        }      while (sesionActiva!=null);
+   } while (sesionActiva == null);
+
 		return sesionActiva;
     }
 
@@ -107,6 +108,7 @@ public class Login  {
                 rolUsuario = Rol.ADMINISTRADOR;
                 break;
         }
+        if (rolUsuario == null) return;
 
         // Crear usuario según rol
         switch (rolUsuario) {
