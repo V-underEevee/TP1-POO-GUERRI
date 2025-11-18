@@ -55,12 +55,23 @@ public class Empleado extends Usuario {
 
             switch (op) {
 
-                case 0 -> verListaClientes();
-                case 1 -> buscarCliente();
-                case 2 -> depositarACliente();
-                case 3 -> extraerDeCliente();
-                case 4 -> verMovimientosCliente();
-                default -> activo = false;
+                case 0:
+                	verListaClientes();
+                	break;
+                case 1:
+                	buscarCliente();
+                	break;
+                case 2:
+                	depositarACliente();
+                	break;
+                case 3:
+                	extraerDeCliente();
+                	break;
+                case 4:
+                	verMovimientosCliente();
+                	break;
+                default:
+                	activo = false;
             }
         }
     }
