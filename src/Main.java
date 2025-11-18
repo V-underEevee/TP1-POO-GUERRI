@@ -1,10 +1,18 @@
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 public class Main {
+	
+	 public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+
+	
 public static void main(String []args) {
     // Inicializar-usuarios-de-prueba
-    new Usuario("cliente1@mail.com", "12345", Rol.CLIENTE);
-    new Usuario("admin@banco.com", "admin123", Rol.ADMINISTRADOR);
+	new Usuario("admin@banco.com", "admin123", "adminAlias", Rol.ADMINISTRADOR);
+    new Usuario("empleado@banco.com", "emp123", "empleadoAlias", Rol.EMPLEADO);
+    new Cliente("cliente@banco.com", "cli123", "clienteAlias",
+            Rol.CLIENTE, new Cuenta());
 
     Usuario usuarioLogueado = null;
 
@@ -20,6 +28,7 @@ public static void main(String []args) {
     // Menú-según el-rol
     switch (usuarioLogueado.getRol()) {
         case CLIENTE:
+        	
             // Implementar-menú-del-cliente
             JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Cliente...");
             Cliente actual = (Cliente)usuarioLogueado;

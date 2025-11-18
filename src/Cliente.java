@@ -8,12 +8,11 @@ public class Cliente extends Usuario {
     private CuentaInversion inversion;
     private ArrayList<Tarjeta> tarjetas;
 
-    public Cliente(String mail, String contr, Rol rol, Cuenta cuenta) {
-        super(mail, contr, rol);
+    public Cliente(String mail, String contr, String alias, Rol rol, Cuenta cuenta) {
+        super(mail, contr, alias, rol);
         this.cuenta = cuenta;
-        this.tarjetas = new ArrayList<>();
-        this.inversion = new CuentaInversion(); // la cuenta de inversión comienza vacía
     }
+
 
     public Cuenta getCuenta() {
         return cuenta;
@@ -23,7 +22,7 @@ public class Cliente extends Usuario {
         tarjetas.add(tarjeta);
     }
 
-    @Override
+    
     public void menu() {
         boolean salir = false;
 
@@ -140,8 +139,12 @@ public class Cliente extends Usuario {
                 "Invertir dinero",
                 "Simular 1 día",
                 "Ver historial",
+                "Retirar a la billetera",
+                "Reinvertir ganancias",
                 "Volver"
         };
+
+        
 
         while (activo) {
 
@@ -174,7 +177,22 @@ public class Cliente extends Usuario {
 
                 case 2:
                     JOptionPane.showMessageDialog(null, inversion.historialToString());
+                    break; 
+                case 3: // retirar
+                    double ret = Validaciones.IngresarInt("Monto a retirar:");
+                    if (inversion.retirar(ret)) {
+                        cuenta.depositar(ret);
+                        JOptionPane.showMessageDialog(null, "Retiro exitoso. El dinero volvió a tu billetera.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se pudo retirar.");
+                    }
                     break;
+
+                case 4: // reinvertir
+                    inversion.reinvertirTodo();
+                    JOptionPane.showMessageDialog(null, "Reinversión realizada.");
+                    break;    
+               
 
                 default:
                     activo = false;
@@ -184,8 +202,96 @@ public class Cliente extends Usuario {
 
     // ---------------- TARJETAS (sin implementar aún) -----------------
     private void menuTarjetas() {
-        JOptionPane.showMessageDialog(null,
-                "Gestión de tarjetas aún no implementada.");
+        String[] opciones = {
+                "Ver tarjetas",
+                "Agregar tarjeta",
+                "Eliminar tarjeta",
+                "Volver"
+        };
+
+        boolean activo = true;
+
+        while (activo) {
+
+            int op = JOptionPane.showOptionDialog(
+                    null,
+                    "Gestión de Tarjetas",
+                    "Tarjetas",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
+
+            switch (op) {
+
+                case 0: // ver tarjetas
+                    if (tarjetas.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No tenés tarjetas cargadas.");
+                    } else {
+                        StringBuilder sb = new StringBuilder("Tus tarjetas:\n\n");
+                        for (Tarjeta t : tarjetas) {
+                            sb.append("- ").append(t).append("\n");
+                        }
+                        JOptionPane.showMessageDialog(null, sb.toString());
+                    }
+                    break;
+
+                case 1: // agregar
+                    String num = JOptionPane.showInputDialog("Número de tarjeta:");
+                    String venc = JOptionPane.showInputDialog("Vencimiento (MM/AA):");
+
+                    String[] tipos = {"Débito", "Crédito"};
+                    int tipoIndex = JOptionPane.showOptionDialog(
+                            null,
+                            "Tipo de tarjeta:",
+                            "Tipo",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.INFORMATION_MESSAGE,
+                            null,
+                            tipos,
+                            tipos[0]
+                    );
+
+                    if (tipoIndex >= 0) {
+                        tarjetas.add(new Tarjeta(num, venc, tipos[tipoIndex]));
+                        JOptionPane.showMessageDialog(null, "Tarjeta agregada.");
+                    }
+                    break;
+
+                case 2: // eliminar
+                    if (tarjetas.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No hay tarjetas para eliminar.");
+                        break;
+                    }
+
+                    String[] lista = new String[tarjetas.size()];
+                    for (int i = 0; i < tarjetas.size(); i++) {
+                        lista[i] = tarjetas.get(i).toString();
+                    }
+
+                    int elim = JOptionPane.showOptionDialog(
+                            null,
+                            "Elija tarjeta a eliminar:",
+                            "Eliminar",
+                            JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE,
+                            null,
+                            lista,
+                            lista[0]
+                    );
+
+                    if (elim >= 0) {
+                        tarjetas.remove(elim);
+                        JOptionPane.showMessageDialog(null, "Tarjeta eliminada.");
+                    }
+                    break;
+
+                default:
+                    activo = false;
+            }
+        }
     }
 
 	

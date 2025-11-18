@@ -4,88 +4,156 @@ import javax.swing.JOptionPane;
 
 public class Empleado extends Usuario {
 	
-	private LocalDate fechaInicio;
+    private LocalDate fechaInicio;
 
-	    public Empleado(String mail, String contr, LocalDate fechaInicio) {
-	        super(mail, contr, Rol.EMPLEADO);
-	        this.fechaInicio = fechaInicio;
-	    }
+    public Empleado(String mail, String contr) {
+        super(mail, contr, "empleado", Rol.EMPLEADO);
+    }
 
-	    public LocalDate getFechaInicio() {
-	        return fechaInicio;
-	    }
 
-	    public void setFechaInicio(LocalDate fechaInicio) {
-	        this.fechaInicio = fechaInicio;
-	    }
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
 
-	    @Override
-	    public String toString() {
-	        return "Empleado [fechaInicio=" + fechaInicio + ", toString()=" + super.toString() + "]";
-	    }
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
 
-	    public void menu() {
-	        boolean salir = false;
-	        while (!salir) {
-	            String[] opciones = {
-	                "Dar de baja cajero",
-	                "Reponer dinero en cajero",
-	                "Ver historial del sistema",
-	                "Salir"
-	            };
+    @Override
+    public String toString() {
+        return "Empleado [fechaInicio=" + fechaInicio + ", " + super.toString() + "]";
+    }
 
-	            int opcion = JOptionPane.showOptionDialog(
-	                null,
-	                "Menú de Empleado",
-	                "Empleado",
-	                JOptionPane.DEFAULT_OPTION,
-	                JOptionPane.INFORMATION_MESSAGE,
-	                null,
-	                opciones,
-	                opciones[0]
-	            );
+    // ======================================================
+    //                MENÚ DEL EMPLEADO
+    // ======================================================
+    public void menu() {
 
-	            switch (opcion) {
-	                case 0:
-	                    darDeBajaCajero();
-	                    break;
-	                case 1:
-	                    reponerDineroCajero();
-	                    break;
-	                case 2:
-	                    verHistorialSistema();
-	                    break;
-	                default:
-	                    salir = true;
-	                    break;
-	            }
-	        }
-	    }
+        String[] opciones = {
+            "Ver lista de clientes",
+            "Buscar cliente",
+            "Depositar a un cliente",
+            "Extraer de un cliente",
+            "Ver movimientos de un cliente",
+            "Volver"
+        };
 
-	    private void darDeBajaCajero() {
-	        JOptionPane.showMessageDialog(
-	            null,
-	            "Función para dar de baja cajero aún no implementada."
-	        );
-	        // integrar lógica de cajeros automáticos
-	    }
+        boolean activo = true;
 
-	    private void reponerDineroCajero() {
-	        String monto = JOptionPane.showInputDialog("Ingrese monto a reponer en cajero:");
-	        try {
-	            int cantidad = Integer.parseInt(monto);
-	            // simulación de lógica
-	            JOptionPane.showMessageDialog(null, "Se ha repuesto $" + cantidad + " en el cajero.");
-	        } catch (NumberFormatException e) {
-	            JOptionPane.showMessageDialog(null, "Monto no válido. Intente nuevamente.");
-	        }
-	    }
+        while (activo) {
 
-	    private void verHistorialSistema() {
-	        JOptionPane.showMessageDialog(
-	            null,
-	            "Función para ver historial del sistema aún no implementada."
-	        );
+            int op = JOptionPane.showOptionDialog(
+                null,
+                "Menú Empleado",
+                "Empleado",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
+            );
 
-	    }
+            switch (op) {
+
+                case 0 -> verListaClientes();
+                case 1 -> buscarCliente();
+                case 2 -> depositarACliente();
+                case 3 -> extraerDeCliente();
+                case 4 -> verMovimientosCliente();
+                default -> activo = false;
+            }
+        }
+    }
+
+    // ======================================================
+    //           FUNCIONES PARA GESTIONAR CLIENTES
+    // ======================================================
+
+    private void verListaClientes() {
+        StringBuilder sb = new StringBuilder("Listado de clientes:\n\n");
+
+        for (Usuario u : Main.listaUsuarios) {
+            if (u instanceof Cliente) {
+                sb.append("- ")
+                  .append(u.getAlias())
+                  .append(" | ")
+                  .append(u.getMail())
+                  .append("\n");
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, sb.toString());
+    }
+
+    private Cliente pedirCliente() {
+        String dato = JOptionPane.showInputDialog("Ingrese mail o alias del cliente:");
+
+        if (dato == null || dato.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrada inválida.");
+            return null;
+        }
+
+        Usuario u = Usuario.buscarPorAlias(dato);
+
+        if (u == null)
+            u = Usuario.buscarPorMail(dato);
+
+        if (u instanceof Cliente)
+            return (Cliente) u;
+
+        JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+        return null;
+    }
+
+    private void buscarCliente() {
+        Cliente c = pedirCliente();
+        if (c == null) return;
+
+        JOptionPane.showMessageDialog(null,
+                "Cliente encontrado:\nAlias: " + c.getAlias() +
+                "\nMail: " + c.getMail() +
+                "\nSaldo: $" + c.getCuenta().getSaldo());
+    }
+
+    private void depositarACliente() {
+        Cliente c = pedirCliente();
+        if (c == null) return;
+
+        double monto = Validaciones.IngresarInt("Monto a depositar:");
+        c.getCuenta().depositar(monto);
+
+        JOptionPane.showMessageDialog(null,
+                "Depósito realizado a " + c.getAlias());
+    }
+
+    private void extraerDeCliente() {
+        Cliente c = pedirCliente();
+        if (c == null) return;
+
+        double monto = Validaciones.IngresarInt("Monto a extraer:");
+
+        if (c.getCuenta().retirar(monto)) {
+            JOptionPane.showMessageDialog(null, "Extracción exitosa.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Fondos insuficientes.");
+        }
+    }
+
+    private void verMovimientosCliente() {
+        Cliente c = pedirCliente();
+        if (c == null) return;
+
+        if (c.getCuenta().getHistorial().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay movimientos.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder("Historial de movimientos:\n\n");
+
+        for (String mov : c.getCuenta().getHistorial()) {
+            sb.append(mov).append("\n");
+        }
+
+        JOptionPane.showMessageDialog(null, sb.toString());
+    }
 }

@@ -2,9 +2,10 @@ import javax.swing.JOptionPane;
 
 public class Admin extends Usuario {
 	
-	 public Admin(String mail, String contr) {
-	        super(mail, contr, Rol.ADMINISTRADOR);
-	    }
+	public Admin(String mail, String contr) {
+	    super(mail, contr, "admin", Rol.ADMINISTRADOR);
+	}
+
 
 	    @Override
 	    public String toString() {

@@ -2,22 +2,22 @@ import java.time.LocalDate;
 
 public class Tarjeta {
 	
-	    private String numero;
-	    private String tipo; // Crédito o débito
-	    private String banco;
-	    private LocalDate fechaVencimiento;
+	private String numero;
+    private String vencimiento;
+    private String tipo; // "Débito" o "Crédito"
 
-	    public Tarjeta(String numero, String tipo, String banco, LocalDate fechaVencimiento) {
-	        this.numero = numero;
-	        this.tipo = tipo;
-	        this.banco = banco;
-	        this.fechaVencimiento = fechaVencimiento;
-	    }
+    public Tarjeta(String numero, String vencimiento, String tipo) {
+        this.numero = numero;
+        this.vencimiento = vencimiento;
+        this.tipo = tipo;
+    }
 
-	    @Override
-	    public String toString() {
-	        return "Tarjeta [numero=" + numero + ", tipo=" + tipo + ", banco=" + banco + ", vence=" + fechaVencimiento + "]";
-	    }
-	}
+    public String getNumero() { return numero; }
+    public String getVencimiento() { return vencimiento; }
+    public String getTipo() { return tipo; }
 
-
+    
+    public String toString() {
+        return tipo + " - " + numero + " - Vence: " + vencimiento;
+    }
+}
