@@ -21,7 +21,7 @@ public static void main(String []args) {
     if (usuarioLogueado == null) {
         // Tocó salir o cerró la ventana → terminamos el programa
         JOptionPane.showMessageDialog(null, "Sesión no iniciada. Saliendo del sistema.");
-        return; // o System.exit(0);
+        System.exit(0);
     }
 
     // si llegó acá, hay usuario logueado:
