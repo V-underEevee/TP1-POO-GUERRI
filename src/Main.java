@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 public class Main {
 	
 	 public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	 public static ArrayList<Movimiento> historialGlobal = new ArrayList<>();
+
 
 	
 public static void main(String []args) {

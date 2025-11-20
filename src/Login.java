@@ -88,12 +88,22 @@ public class Login  {
 
 	        if (rolSeleccion == -1) return;
 
-	        Rol rolUsuario = switch (rolSeleccion) {
-	            case 0 -> Rol.CLIENTE;
-	            case 1 -> Rol.EMPLEADO;
-	            case 2 -> Rol.ADMINISTRADOR;
-	            default -> null;
-	        };
+	        Rol rolUsuario = null;
+
+	        switch (rolSeleccion) {
+	            case 0:
+	                rolUsuario = Rol.CLIENTE;
+	                break;
+	            case 1:
+	                rolUsuario = Rol.EMPLEADO;
+	                break;
+	            case 2:
+	                rolUsuario = Rol.ADMINISTRADOR;
+	                break;
+	            default:
+	                rolUsuario = null;
+	                break;
+	        }
 
 	        if (rolUsuario == null) return;
 
