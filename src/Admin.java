@@ -20,6 +20,7 @@ public class Admin extends Usuario {
 	                "Eliminar usuario",
 	                "Modificar usuario",
 	                "Ver usuarios registrados",
+	                "Ver historial global",
 	                "Salir"
 	            };
 
@@ -47,6 +48,9 @@ public class Admin extends Usuario {
 	                case 3:
 	                    verUsuarios();
 	                    break;
+	                case 4:
+	                	verHistorialGlobal();
+	                	break;
 	                default:
 	                    salir = true;
 	                    break;
@@ -78,4 +82,19 @@ public class Admin extends Usuario {
 	    private void verUsuarios() {
 	        JOptionPane.showMessageDialog(null, Usuario.getUsuarios().toString());
 	    }
+	    private void verHistorialGlobal() {
+	        if (Main.historialGlobal.isEmpty()) {
+	            JOptionPane.showMessageDialog(null, "No hay movimientos registrados.");
+	            return;
+	        }
+
+	        StringBuilder sb = new StringBuilder("HISTORIAL GLOBAL:\n\n");
+
+	        for (Movimiento m : Main.historialGlobal) {
+	            sb.append(m.toString()).append("\n");
+	        }
+
+	        JOptionPane.showMessageDialog(null, sb.toString());
+	    }
+
 }
