@@ -11,6 +11,7 @@ public class Cliente extends Usuario {
     public Cliente(String mail, String contr, String alias, Rol rol, Cuenta cuenta) {
         super(mail, contr, alias, rol);
         this.cuenta = cuenta;
+        this.inversion = new CuentaInversion();
     }
 
 
@@ -132,7 +133,7 @@ public class Cliente extends Usuario {
     // --------------- INVERSIONES -------------------
 
     private void menuInversiones() {
-
+    	
         boolean activo = true;
 
         String[] opciones = {

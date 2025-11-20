@@ -16,34 +16,25 @@ public static void main(String []args) {
     new Cliente("cliente@banco.com", "cli123", "clienteAlias",
             Rol.CLIENTE, new Cuenta());
 
-    Usuario usuarioLogueado = null;
+    Usuario usuarioLogueado = Login.iniciarSesion();
 
-    do {
-    	
-    	usuarioLogueado = Login.iniciarSesion();
-    }while(usuarioLogueado == null) ;
-    
+    if (usuarioLogueado == null) {
+        // Tocó salir o cerró la ventana → terminamos el programa
+        JOptionPane.showMessageDialog(null, "Sesión no iniciada. Saliendo del sistema.");
+        return; // o System.exit(0);
+    }
 
-    JOptionPane.showMessageDialog(null, 
-        "Bienvenido, " + usuarioLogueado.getMail() + "\nRol: " + usuarioLogueado.getRol());
-
-    // Menú-según el-rol
+    // si llegó acá, hay usuario logueado:
     switch (usuarioLogueado.getRol()) {
         case CLIENTE:
-        	
-            // Implementar-menú-del-cliente
-            JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Cliente...");
-            Cliente actual = (Cliente)usuarioLogueado;
-            actual.menu();
+            ((Cliente) usuarioLogueado).menu();
+            break;
+        case EMPLEADO:
+            ((Empleado) usuarioLogueado).menu();
             break;
         case ADMINISTRADOR:
-            // Implementar-menú-del-administrador
-            JOptionPane.showMessageDialog(null, "Redirigiendo al menú de Administrador...");
+            ((Admin) usuarioLogueado).menu();
             break;
-	case EMPLEADO:
-		break;
-	default:
-		break;
     }
 }
 }

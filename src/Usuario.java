@@ -19,6 +19,10 @@ public class Usuario {
     public String getContr() { return contr; }
     public String getAlias() { return alias; }
     public Rol getRol() { return rol; }
+    public static ArrayList<Usuario> getUsuarios() {
+        return Main.listaUsuarios;
+    }
+
 
     public void setAlias(String alias) {
         this.alias = alias;
@@ -30,37 +34,39 @@ public class Usuario {
 			return "Usuario [mail=" + mail + ", contr=" + contr + ", rol=" + rol + ", getClass()=" + getClass()
 					+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 		}
-		 private static ArrayList<Usuario> usuarios = new ArrayList<>();
+		
+		
 		// Buscar Usuarios
 	    
-	    public static Usuario buscarPorMail(String mail) {
-	        for (Usuario userEvaluado : usuarios) {
-	            if (userEvaluado.getMail().equalsIgnoreCase(mail)) {
-	                return userEvaluado;
-	            }
-	        }
-	        return null;
-	    }
+		public static Usuario buscarPorMail(String mail) {
+		    for (Usuario userEvaluado : Main.listaUsuarios) {
+		        if (userEvaluado.getMail().equalsIgnoreCase(mail)) {
+		            return userEvaluado;
+		        }
+		    }
+		    return null;
+		}
 
-	    public static Usuario buscarPorAlias(String alias) {
-	        for (Usuario user : usuarios) {
-	            if (user.getAlias().equalsIgnoreCase(alias)) {
-	                return user;
-	            }
-	        }
-	        return null;
-	    }
-	    
-	    //lista solo de clientes
-	    public static ArrayList<Cliente> getClientes() {
-	        ArrayList<Cliente> lista = new ArrayList<>();
-	        for (Usuario u : usuarios) {
-	            if (u instanceof Cliente) {
-	                lista.add((Cliente) u);
-	            }
-	        }
-	        return lista;
-	    }
+		public static Usuario buscarPorAlias(String alias) {
+		    for (Usuario user : Main.listaUsuarios) {
+		        if (user.getAlias() != null &&
+		            user.getAlias().equalsIgnoreCase(alias)) {
+		            return user;
+		        }
+		    }
+		    return null;
+		}
+
+		public static ArrayList<Cliente> getClientes() {
+		    ArrayList<Cliente> lista = new ArrayList<>();
+		    for (Usuario u : Main.listaUsuarios) {
+		        if (u instanceof Cliente) {
+		            lista.add((Cliente) u);
+		        }
+		    }
+		    return lista;
+		}
+
 		
 }
 
