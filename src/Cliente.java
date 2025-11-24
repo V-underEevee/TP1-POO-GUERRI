@@ -74,7 +74,7 @@ public class Cliente extends Usuario {
     }
 
         
-    }
+    
 
     // ---------------- BILLETERA ----------------
 
@@ -143,15 +143,25 @@ public class Cliente extends Usuario {
 
         Usuario destino = Usuario.buscarPorAlias(aliasDestino);
 
-        if (destino instanceof Cliente cliDestino) {
+        // instanceof clásico
+        if (destino instanceof Cliente) {
+
+            Cliente cliDestino = (Cliente) destino; // CAST clásico
 
             double monto = Validaciones.IngresarInt("Ingrese monto a transferir:");
             if (monto <= 0) return;
 
-            boolean ok = cuenta.transferir(cliDestino.getCuenta(), monto, this.alias, cliDestino.alias);
+            boolean ok = cuenta.transferir(
+                    cliDestino.getCuenta(),
+                    monto,
+                    this.alias,
+                    cliDestino.alias
+            );
 
             if (ok) {
-                Main.historialGlobal.add(new Movimiento("Transferencia", this.alias + " -> " + cliDestino.alias, monto));
+                Main.historialGlobal.add(
+                    new Movimiento("Transferencia", this.alias + " -> " + cliDestino.alias, monto)
+                );
                 JOptionPane.showMessageDialog(null, "Transferencia exitosa.");
             } else {
                 JOptionPane.showMessageDialog(null, "No se pudo realizar la transferencia.");
