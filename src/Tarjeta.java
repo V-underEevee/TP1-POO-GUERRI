@@ -1,5 +1,3 @@
-import java.time.LocalDate;
-
 public class Tarjeta {
 	
 	private String numero;

@@ -51,6 +51,8 @@ public class Admin extends Usuario {
 	                case 4:
 	                	verHistorialGlobal();
 	                	break;
+	                case 5:
+	                	return;
 	                default:
 	                    salir = true;
 	                    break;

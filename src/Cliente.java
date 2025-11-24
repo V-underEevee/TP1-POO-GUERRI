@@ -11,6 +11,7 @@ public class Cliente extends Usuario {
     public Cliente(String mail, String contr, String alias, Rol rol, Cuenta cuenta) {
         super(mail, contr, alias, rol);
         this.cuenta = cuenta;
+        this.tarjetas = new ArrayList<>();
         this.inversion = new CuentaInversion();
     }
 
@@ -192,7 +193,9 @@ public class Cliente extends Usuario {
                 case 4: // reinvertir
                     inversion.reinvertirTodo();
                     JOptionPane.showMessageDialog(null, "Reinversión realizada.");
-                    break;    
+                    break;
+                case 5:
+                	return;
                
 
                 default:
