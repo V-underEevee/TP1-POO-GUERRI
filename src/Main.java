@@ -9,32 +9,24 @@ public class Main {
     static Usuario[] usuarios = new Usuario[100];
     static int totalUsuarios = 0;
 
-    public static void main(String[] args) {
+    public static void main(String []args) {
 
-        // Usuarios iniciales
-        new Usuario("admin@banco.com", "admin123", "adminAlias", Rol.ADMINISTRADOR);
-        new Usuario("empleado@banco.com", "emp123", "empleadoAlias", Rol.EMPLEADO);
+        // Usuarios de prueba
+        new Admin("admin@banco.com", "admin123");
+        new Empleado("empleado@banco.com", "emp123");
         new Cliente("cliente@banco.com", "cli123", "clienteAlias",
-                Rol.CLIENTE, new Cuenta());
+                    Rol.CLIENTE, new Cuenta());
 
-        while (true) {   // 👈 BUCLE PRINCIPAL
+        while (true) {
 
             Usuario u = Login.iniciarSesion();
 
             if (u == null) {
                 JOptionPane.showMessageDialog(null, "Sesión no iniciada. Saliendo del sistema.");
-                System.exit(0);   // 👈 AHORA cierra de verdad
+                System.exit(0);
             }
-
-
-            // 👈 Cuando el usuario toca "Cerrar sesión" en su menú,
-            //     la función menu() hace return.
-            //     Entonces volvemos al WHILE y sale otra vez el LOGIN.
-        
-    
-    
-
-    // si llegó acá, hay usuario logueado:
+            
+            // si llegó acá, hay usuario logueado:
     switch (u.getRol()) {
         case CLIENTE:
             ((Cliente) u).menu();
@@ -45,7 +37,21 @@ public class Main {
         case ADMINISTRADOR:
             ((Admin) u).menu();
             break;
-    		}
-        }
+            
+            
+    }
+            }
+    
+
+            // 👈 Cuando el usuario toca "Cerrar sesión" en su menú,
+            //     la función menu() hace return.
+            //     Entonces volvemos al WHILE y sale otra vez el LOGIN.
+        
+    
+    
+
+    
     }
 }
+
+

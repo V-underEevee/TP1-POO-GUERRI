@@ -2,8 +2,8 @@
 public class Movimiento {
 
 
-	private String tipo;      // Depósito, Extracción, Transferencia...
-    private String usuario;   // alias del cliente
+	private String tipo;      // Depósito, Extracción, Transferencia, etc.
+    private String usuario;   // alias o mail del cliente
     private double monto;
     private String fecha;
 
@@ -21,7 +21,7 @@ public class Movimiento {
 
     @Override
     public String toString() {
-        return "[" + fecha + "] " + tipo + " — " + usuario + " — $" + monto;
+        return "[" + fecha + "] " + tipo + " - " + usuario + " - $" + String.format("%.2f", monto);
     }
 	
 

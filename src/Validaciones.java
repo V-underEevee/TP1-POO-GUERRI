@@ -1,12 +1,13 @@
 import javax.swing.JOptionPane;
 
 public class Validaciones {
+	
 	// Pide un String no vacío. Si el usuario cancela, devuelve null.
     public static String ingresarString(String mensaje) {
         String dato;
         do {
             dato = JOptionPane.showInputDialog(null, mensaje);
-            if (dato == null) return null;           // usuario canceló
+            if (dato == null) return null;           
             if (dato.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El campo no puede quedar vacío. Intente nuevamente.");
             } else {
@@ -20,7 +21,7 @@ public class Validaciones {
         String dato;
         do {
             dato = JOptionPane.showInputDialog(null, mensaje);
-            if (dato == null) return null; // usuario canceló
+            if (dato == null) return null;
             dato = dato.trim();
             if (dato.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un número. Intente nuevamente.");
@@ -34,20 +35,19 @@ public class Validaciones {
                 }
                 return valor;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese sólo números (ej: 1234.56).");
+                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese solo números (ej: 1234.56).");
             }
         } while (true);
     }
-    
-    
+
+    // Versión usada en tu código, devuelve double > 0 (0 si canceló)
     public static double IngresarInt(String mensaje) {
         while (true) {
             String dato = JOptionPane.showInputDialog(null, mensaje);
             if (dato == null) {
-                // El usuario canceló: devolvemos 0.0 (comportamiento seguro y no rompe llamadas existentes).
                 return 0.0;
             }
-            dato = dato.trim().replace(',', '.'); // aceptar coma como decimal
+            dato = dato.trim().replace(',', '.');
             if (dato.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un número. Intente nuevamente.");
                 continue;
@@ -60,14 +60,11 @@ public class Validaciones {
                 }
                 return valor;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese sólo números (ej: 1234.56).");
+                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese solo números.");
             }
         }
     }
 
-    /**
-     * Pide un entero positivo. Devuelve 0 si cancela.
-     */
     public static int IngresarIntPositivo(String mensaje) {
         while (true) {
             String dato = JOptionPane.showInputDialog(null, mensaje);
@@ -85,10 +82,11 @@ public class Validaciones {
                 }
                 return valor;
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese sólo números enteros.");
+                JOptionPane.showMessageDialog(null, "Formato inválido. Ingrese solo números enteros.");
             }
         }
     }
+}
 
     
-}
+

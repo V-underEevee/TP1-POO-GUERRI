@@ -1,14 +1,17 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Cuenta {
 	private int numeroCuenta;
     private double saldo;
     private LinkedList<Tarjeta> tarjetas;
+    private ArrayList<String> historial;  // <-- historial interno
 
     public Cuenta() {
         this.numeroCuenta = generarNumeroCuenta();
         this.saldo = 0;
         this.tarjetas = new LinkedList<>();
+        this.historial = new ArrayList<>();
     }
 
     private int generarNumeroCuenta() {
@@ -18,49 +21,49 @@ public class Cuenta {
     public void depositar(double monto) {
         if (monto > 0) {
             saldo += monto;
-            System.out.println("Depósito realizado. Nuevo saldo: " + saldo);
+            historial.add("Depósito: $" + String.format("%.2f", monto) +
+                          " | Saldo: $" + String.format("%.2f", saldo));
         } else {
-            System.out.println("El monto a depositar debe ser positivo.");
+            historial.add("Intento de depósito inválido: $" + monto);
         }
     }
 
     public boolean retirar(double monto) {
-        if (monto > 0) {
-            if (monto <= saldo) {
-                saldo -= monto;
-                System.out.println("Retiro realizado. Nuevo saldo: " + saldo);
-                return true;
-            } else {
-                System.out.println("Fondos insuficientes. Operación cancelada.");
-                return false;
-            }
-        } else {
-            System.out.println("El monto a retirar debe ser positivo.");
+        if (monto <= 0) {
+            historial.add("Intento de extracción inválida: $" + monto);
             return false;
         }
+        if (monto > saldo) {
+            historial.add("Extracción fallida por fondos insuficientes: $" + monto +
+                          " | Saldo: $" + String.format("%.2f", saldo));
+            return false;
+        }
+        saldo -= monto;
+        historial.add("Extracción: $" + String.format("%.2f", monto) +
+                      " | Saldo: $" + String.format("%.2f", saldo));
+        return true;
     }
 
-    public boolean transferir(Cuenta cuentaDestino, double monto) {
+    public boolean transferir(Cuenta cuentaDestino, double monto, String aliasOrigen, String aliasDestino) {
         if (cuentaDestino == null) {
-            System.out.println("Cuenta destino inexistente.");
+            historial.add("Transferencia fallida: cuenta destino inexistente.");
             return false;
         }
         if (this.retirar(monto)) {
             cuentaDestino.depositar(monto);
-            System.out.println("Transferencia realizada con éxito.");
+            historial.add("Transferencia enviada a " + aliasDestino + ": $" +
+                          String.format("%.2f", monto));
+            cuentaDestino.historial.add("Transferencia recibida de " + aliasOrigen + ": $" +
+                                        String.format("%.2f", monto));
             return true;
-        } else {
-            System.out.println("No se pudo realizar la transferencia.");
-            return false;
         }
+        return false;
     }
 
     public void agregarTarjeta(Tarjeta tarjeta) {
         if (tarjeta != null) {
             tarjetas.add(tarjeta);
-            System.out.println("Tarjeta agregada con éxito.");
-        } else {
-            System.out.println("No se pudo agregar la tarjeta (objeto null).");
+            historial.add("Tarjeta agregada: " + tarjeta.toString());
         }
     }
 
@@ -76,8 +79,12 @@ public class Cuenta {
         return numeroCuenta;
     }
 
+    public ArrayList<String> getHistorial() {
+        return historial;
+    }
+
     @Override
     public String toString() {
-        return "Cuenta [numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + ", tarjetas=" + tarjetas + "]";
+        return "Cuenta [numeroCuenta=" + numeroCuenta + ", saldo=" + saldo + "]";
     }
 }
