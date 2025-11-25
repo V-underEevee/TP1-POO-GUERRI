@@ -13,7 +13,8 @@ public class Main {
     	// Usuarios de prueba
     	Main.listaUsuarios.add(new Admin("admin@banco.com", "admin123"));
         Main.listaUsuarios.add(new Empleado("empleado@banco.com", "emp123"));
-        new Cliente("cliente@banco.com", "cli123", "clienteAlias",Rol.CLIENTE, new Cuenta());
+        Main.listaUsuarios.add(new Cliente("cliente@banco.com", "cli123", "clienteAlias",
+        Rol.CLIENTE, new Cuenta()));
         
      // Crear 4 cajeros por defecto
         Main.cajeros.add(new Cajero(1, 50000));

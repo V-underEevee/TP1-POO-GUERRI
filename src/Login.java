@@ -128,4 +128,4 @@ public class Login  {
         JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
     }
 
-}
+  }

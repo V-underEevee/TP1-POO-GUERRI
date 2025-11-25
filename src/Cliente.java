@@ -13,6 +13,8 @@ public class Cliente extends Usuario {
         this.cuenta = cuenta;
         this.tarjetas = new ArrayList<>();
         this.inversion = new CuentaInversion();
+        Main.listaUsuarios.add(this);
+
     }
 
 
