@@ -7,8 +7,6 @@ public class Main {
 	public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     public static ArrayList<Movimiento> historialGlobal = new ArrayList<>();
     public static ArrayList<Cajero> cajeros = new ArrayList<>();
-    static Usuario[] usuarios = new Usuario[100];
-    static int totalUsuarios = 0;
 
     public static void main(String []args) {
 

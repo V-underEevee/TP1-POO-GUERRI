@@ -11,6 +11,7 @@ public class Usuario {
 	        this.contr = contr;
 	        this.alias = alias;
 	        this.rol = rol;
+	        Main.listaUsuarios.add(this);
 	    }
 	    
 	 // Getters y setters
@@ -65,12 +66,5 @@ public class Usuario {
 			        }
 			    }
 			    return lista;
-			}
-
-			
+			}		
 	}
-
-		
-
-
-
