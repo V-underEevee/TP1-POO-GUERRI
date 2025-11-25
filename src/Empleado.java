@@ -30,6 +30,7 @@ public class Empleado extends Usuario {
             "Buscar cliente",
             "Ver movimientos de un cliente",
             "Ver historial global",
+            "Ver cajeros",
             "Cerrar sesión"
         };
 
@@ -47,7 +48,7 @@ public class Empleado extends Usuario {
                 opciones[0]
             );
 
-            if (op == JOptionPane.CLOSED_OPTION || op == -1 || op == 4) {
+            if (op == JOptionPane.CLOSED_OPTION || op == -1 || op == 5) {
                 return; // Cierra sesión
             }
 
@@ -65,8 +66,10 @@ public class Empleado extends Usuario {
                     verHistorialGlobal();
                     break;
                 case 4:
-                    // ya controlado al inicio
+                    menuCajeros();
                     break;
+                case 5:
+                    return;
                 default:
                     activo = false;
                     break;
@@ -177,6 +180,179 @@ public class Empleado extends Usuario {
         }
 
         JOptionPane.showMessageDialog(null, sb.toString());
+    }
+    
+ // ======================================================
+    //                     CAJEROS
+    // ======================================================
+
+    private void menuCajeros() {
+
+        String[] opciones = {
+                "Habilitar cajero",
+                "Deshabilitar cajero",
+                "Vaciar cajero",
+                "Rellenar cajero",
+                "Volver"
+        };
+
+        boolean activo = true;
+
+        while (activo) {
+
+            int op = JOptionPane.showOptionDialog(
+                    null,
+                    "Gestión de Cajeros",
+                    "Cajeros",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
+
+            switch (op) {
+
+                case 0:
+                    habilitarCajero();
+                    break;
+
+                case 1:
+                    deshabilitarCajero();
+                    break;
+
+                case 2:
+                    vaciarCajero();
+                    break;
+
+                case 3:
+                    rellenarCajero();
+                    break;
+
+                case 4:
+                default:
+                    activo = false;
+                    break;
+            }
+        }
+    }
+
+    private void habilitarCajero() {
+
+        boolean existeDeshab = false;
+
+        for (Cajero c : Main.cajeros) {
+            if (!c.isHabilitado()) {
+                existeDeshab = true;
+                break;
+            }
+        }
+
+        if (!existeDeshab) {
+            JOptionPane.showMessageDialog(null,
+                    "No hay cajeros deshabilitados para habilitar.");
+            return;
+        }
+
+        String[] lista = new String[Main.cajeros.size()];
+        for (int i = 0; i < lista.length; i++) {
+            lista[i] = Main.cajeros.get(i).toString();
+        }
+
+        int sel = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione cajero a habilitar:",
+                "Habilitar",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                lista,
+                lista[0]
+        );
+
+        if (sel >= 0) {
+            Main.cajeros.get(sel).habilitar();
+            JOptionPane.showMessageDialog(null,
+                    "Cajero habilitado correctamente.");
+        }
+    }
+
+    private void deshabilitarCajero() {
+
+        String[] lista = new String[Main.cajeros.size()];
+        for (int i = 0; i < lista.length; i++) {
+            lista[i] = Main.cajeros.get(i).toString();
+        }
+
+        int sel = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione cajero a deshabilitar:",
+                "Deshabilitar",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                lista,
+                lista[0]
+        );
+
+        if (sel >= 0) {
+            Main.cajeros.get(sel).deshabilitar();
+            JOptionPane.showMessageDialog(null,
+                    "Cajero deshabilitado.");
+        }
+    }
+
+    private void vaciarCajero() {
+
+        String[] lista = new String[Main.cajeros.size()];
+        for (int i = 0; i < lista.length; i++) {
+            lista[i] = Main.cajeros.get(i).toString();
+        }
+
+        int sel = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione cajero a vaciar:",
+                "Vaciar",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                lista,
+                lista[0]
+        );
+
+        if (sel >= 0) {
+            Main.cajeros.get(sel).vaciar();
+            JOptionPane.showMessageDialog(null,
+                    "Cajero vaciado.");
+        }
+    }
+
+    private void rellenarCajero() {
+
+        String[] lista = new String[Main.cajeros.size()];
+        for (int i = 0; i < lista.length; i++) {
+            lista[i] = Main.cajeros.get(i).toString();
+        }
+
+        int sel = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione cajero a rellenar:",
+                "Rellenar",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                lista,
+                lista[0]
+        );
+
+        if (sel >= 0) {
+            double monto = Validaciones.IngresarInt("Monto a agregar:");
+            if (monto > 0) {
+                Main.cajeros.get(sel).rellenar(monto);
+                JOptionPane.showMessageDialog(null,
+                        "Cajero rellenado.");
+            }
+        }
     }
 
 	    // ------------------ UTIL ------------------
