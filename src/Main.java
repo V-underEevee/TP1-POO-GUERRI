@@ -14,7 +14,7 @@ public class Main {
 
     	// Usuarios de prueba
         new Admin("admin@banco.com", "admin123");
-        new Empleado("empleado@banco.com", "emp123");
+        Main.listaUsuarios.add(new Empleado("empleado@banco.com", "emp123"));
         new Cliente("cliente@banco.com", "cli123", "clienteAlias",
                 Rol.CLIENTE, new Cuenta());
         
