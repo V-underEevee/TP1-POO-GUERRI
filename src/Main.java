@@ -11,46 +11,38 @@ public class Main {
 
     public static void main(String []args) {
 
-        // Usuarios de prueba
+    	// Usuarios de prueba
         new Admin("admin@banco.com", "admin123");
         new Empleado("empleado@banco.com", "emp123");
         new Cliente("cliente@banco.com", "cli123", "clienteAlias",
-                    Rol.CLIENTE, new Cuenta());
+                Rol.CLIENTE, new Cuenta());
 
         while (true) {
-
             Usuario u = Login.iniciarSesion();
 
             if (u == null) {
-                JOptionPane.showMessageDialog(null, "Sesión no iniciada. Saliendo del sistema.");
+                JOptionPane.showMessageDialog(null, "Saliendo del sistema.");
                 System.exit(0);
             }
-            
-            // si llegó acá, hay usuario logueado:
-    switch (u.getRol()) {
-        case CLIENTE:
-            ((Cliente) u).menu();
-            break;
-        case EMPLEADO:
-            ((Empleado) u).menu();
-            break;
-        case ADMINISTRADOR:
-            ((Admin) u).menu();
-            break;
-            
-            
-    }
-            }
-    
 
+            switch (u.getRol()) {
+                case CLIENTE:
+                    ((Cliente) u).menu();
+                    break;
+                case EMPLEADO:
+                    ((Empleado) u).menu();
+                    break;
+                case ADMINISTRADOR:
+                    ((Admin) u).menu();
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Rol desconocido.");
+                    break;
+            }
             // 👈 Cuando el usuario toca "Cerrar sesión" en su menú,
             //     la función menu() hace return.
             //     Entonces volvemos al WHILE y sale otra vez el LOGIN.
-        
-    
-    
-
-    
+        }
     }
 }
 

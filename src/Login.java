@@ -2,145 +2,130 @@ import javax.swing.JOptionPane;
 
 public class Login  {
 
+	public static Usuario iniciarSesion() {
 
+        while (true) {
 
-	    public static Usuario iniciarSesion() {
+            String[] opciones = {"Iniciar sesión", "Registrarse", "Salir"};
+            int seleccion = JOptionPane.showOptionDialog(
+                    null,
+                    "Bienvenido al Sistema Bancario",
+                    "Login",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0]
+            );
 
-	        while (true) {
+            if (seleccion == -1 || seleccion == 2) {
+                // X o "Salir"
+                return null;
+            }
 
-	            String[] opciones = {"Iniciar sesión", "Registrarse", "Salir"};
-	            int seleccion = JOptionPane.showOptionDialog(
-	                    null,
-	                    "Bienvenido al Sistema Bancario",
-	                    "Login",
-	                    JOptionPane.DEFAULT_OPTION,
-	                    JOptionPane.INFORMATION_MESSAGE,
-	                    null,
-	                    opciones,
-	                    opciones[0]
-	            );
+            switch (seleccion) {
+                case 0:
+                    Usuario u = loginUsuario();
+                    if (u != null) return u;
+                    break;
 
-	            // X o Salir
-	            if (seleccion == -1 || seleccion == 2) {
-	                return null;
-	            }
+                case 1:
+                    registrarUsuario();
+                    break;
+            }
+        }
+    }
 
-	            switch (seleccion) {
-	                case 0:
-	                    Usuario u = loginUsuario();
-	                    if (u != null) return u;   // Login exitoso
-	                    break;
+    private static Usuario loginUsuario() {
 
-	                case 1:
-	                    registrarUsuario();
-	                    break;
-	            }
-	        }
-	    }
+        String mail = JOptionPane.showInputDialog("Ingrese su email (o código secreto):");
 
-	    private static Usuario loginUsuario() {
+        if (mail == null) return null;
 
-	        String mail = JOptionPane.showInputDialog("Ingrese su email (o código secreto):");
+        if (mail.equals("desbug123")) {
+            JOptionPane.showMessageDialog(null, "Modo desarrollador activado.");
+            return Usuario.buscarPorMail("admin@banco.com");
+        }
 
-	        // X o cancelar
-	        if (mail == null) return null;
+        String contr = JOptionPane.showInputDialog("Ingrese su contraseña:");
+        if (contr == null) return null;
 
-	        // BYPASS DEBUG
-	        if (mail.equals("desbug123")) {
-	            JOptionPane.showMessageDialog(null, "Modo desarrollador activado.");
-	            return Usuario.buscarPorMail("admin@banco.com");
-	        }
+        Usuario usuario = Usuario.buscarPorMail(mail);
 
-	        String contr = JOptionPane.showInputDialog("Ingrese su contraseña:");
+        if (usuario != null && usuario.getContr().equals(contr)) {
+            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
+            return usuario;
+        }
 
-	        // X o cancelar
-	        if (contr == null) return null;
+        JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos.");
+        return null;
+    }
 
-	        Usuario usuario = Usuario.buscarPorMail(mail);
+    private static void registrarUsuario() {
 
-	        if (usuario != null && usuario.getContr().equals(contr)) {
-	            JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso.");
-	            return usuario;
-	        }
+        String mail = JOptionPane.showInputDialog("Ingrese email:");
+        if (mail == null) return;
 
-	        JOptionPane.showMessageDialog(null, "Email o contraseña incorrectos.");
-	        return null;
-	    }
+        String contr = JOptionPane.showInputDialog("Ingrese contraseña:");
+        if (contr == null) return;
 
-	    private static void registrarUsuario() {
+        String alias = JOptionPane.showInputDialog("Ingrese alias:");
+        if (alias == null) return;
 
-	        String mail = JOptionPane.showInputDialog("Ingrese email:");
-	        if (mail == null) return;
+        String[] roles = {"Cliente", "Empleado", "Admin"};
+        int rolSeleccion = JOptionPane.showOptionDialog(
+                null,
+                "Seleccione rol:",
+                "Registro",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                roles,
+                roles[0]
+        );
 
-	        String contr = JOptionPane.showInputDialog("Ingrese contraseña:");
-	        if (contr == null) return;
+        if (rolSeleccion == -1) return;
 
-	        String alias = JOptionPane.showInputDialog("Ingrese alias:");
-	        if (alias == null) return;
+        Rol rolUsuario = null;
 
-	        String[] roles = {"Cliente", "Empleado", "Admin"};
-	        int rolSeleccion = JOptionPane.showOptionDialog(
-	                null,
-	                "Seleccione rol:",
-	                "Registro",
-	                JOptionPane.DEFAULT_OPTION,
-	                JOptionPane.INFORMATION_MESSAGE,
-	                null,
-	                roles,
-	                roles[0]
-	        );
+        switch (rolSeleccion) {
+            case 0:
+                rolUsuario = Rol.CLIENTE;
+                break;
+            case 1:
+                rolUsuario = Rol.EMPLEADO;
+                break;
+            case 2:
+                rolUsuario = Rol.ADMINISTRADOR;
+                break;
+            default:
+                rolUsuario = null;
+                break;
+        }
 
-	        // X → salir del registro
-	        if (rolSeleccion == -1) return;
+        if (rolUsuario == null) return;
 
-	        Rol rolUsuario = null;
+        Usuario nuevo = null;
 
-	        switch (rolSeleccion) {
-	            case 0:
-	                rolUsuario = Rol.CLIENTE;
-	                break;
-	            case 1:
-	                rolUsuario = Rol.EMPLEADO;
-	                break;
-	            case 2:
-	                rolUsuario = Rol.ADMINISTRADOR;
-	                break;
-	            default:
-	                rolUsuario = null;
-	                break;
-	        }
+        switch (rolUsuario) {
 
-	        if (rolUsuario == null) return;
+            case CLIENTE:
+                nuevo = new Cliente(mail, contr, alias, Rol.CLIENTE, new Cuenta());
+                break;
 
-	        Usuario nuevo = null;
+            case EMPLEADO:
+                nuevo = new Empleado(mail, contr);
+                nuevo.setAlias(alias);
+                break;
 
-	        switch (rolUsuario) {
+            case ADMINISTRADOR:
+                nuevo = new Admin(mail, contr);
+                nuevo.setAlias(alias);
+                break;
+        }
 
-	            case CLIENTE:
-	                nuevo = new Cliente(mail, contr, alias, Rol.CLIENTE, new Cuenta());
-	                break;
-
-	            case EMPLEADO:
-	                nuevo = new Empleado(mail, contr);
-	                nuevo.setAlias(alias);
-	                break;
-
-	            case ADMINISTRADOR:
-	                nuevo = new Admin(mail, contr);
-	                nuevo.setAlias(alias);
-	                break;
-	        }
-
-	        Main.listaUsuarios.add(nuevo);
-
-	        JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
-	    }
-
-	
-
-	
-
-	
-
+        // ya se agrega solo en el constructor a Main.listaUsuarios
+        JOptionPane.showMessageDialog(null, "Usuario registrado correctamente.");
+    }
 
 }
