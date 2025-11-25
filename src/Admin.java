@@ -15,6 +15,9 @@ public class Admin extends Usuario {
         boolean salir = false;
         while (!salir) {
             String[] opciones = {
+                "Crear usuario",
+                "Eliminar usuario",
+                "Modificar usuario",
                 "Ver usuarios registrados",
                 "Ver historial global",
                 "Cerrar sesión"
@@ -31,20 +34,54 @@ public class Admin extends Usuario {
                 opciones[0]
             );
 
-            if (opcion == JOptionPane.CLOSED_OPTION || opcion == -1 || opcion == 2) {
-                // Cerrar sesión
-                return;
+            if (opcion == JOptionPane.CLOSED_OPTION || opcion == -1 || opcion == 5) {
+                return; // cerrar sesión
             }
 
             switch (opcion) {
                 case 0:
-                	verUsuarios();
-                	break;
+                    JOptionPane.showMessageDialog(null,
+                            "Función para crear usuario aún no implementada.\n" +
+                            "Podés usar el Login > Registrarse.");
+                    break;
                 case 1:
-                	verHistorialGlobal();
-                	break;
+                    eliminarUsuario();
+                    break;
+                case 2:
+                    modificarUsuario();
+                    break;
+                case 3:
+                    verUsuarios();
+                    break;
+                case 4:
+                    verHistorialGlobal();
+                    break;
+                case 5:
+                    // ya manejado arriba
+                    break;
+                default:
+                    salir = true;
+                    break;
             }
         }
+    }
+
+    private void eliminarUsuario() {
+        String mailUsuario = JOptionPane.showInputDialog("Ingrese el correo del usuario a eliminar:");
+        if (mailUsuario == null) return;
+
+        Usuario u = Usuario.buscarPorMail(mailUsuario);
+        if (u != null) {
+            Usuario.getUsuarios().remove(u);
+            JOptionPane.showMessageDialog(null, "Usuario eliminado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
+        }
+    }
+
+    private void modificarUsuario() {
+        JOptionPane.showMessageDialog(null,
+                "Función para modificar usuario aún no implementada.");
     }
 
     private void verUsuarios() {
@@ -53,7 +90,7 @@ public class Admin extends Usuario {
             return;
         }
 
-        StringBuilder sb = new StringBuilder("USUARIOS REGISTRADOS:\n\n");
+        StringBuilder sb = new StringBuilder("USUARIOS REGISTRADOS\n\n");
         for (Usuario u : Usuario.getUsuarios()) {
             sb.append(u.toString()).append("\n");
         }
